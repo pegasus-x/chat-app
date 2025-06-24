@@ -26,7 +26,6 @@ app.use(
   })
 );
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
@@ -38,12 +37,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-
-// Setup server and socket.io
-const { server } = setupSocket(app);
-
 server.listen(PORT, () => {
-  console.log("Server running on PORT:", PORT);
+  console.log("server is running on PORT:" + PORT);
   connectDB();
 });
 
