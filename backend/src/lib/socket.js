@@ -1,10 +1,8 @@
-import { getReceiverSocketId, io } from "../lib/socket.js";
-
 import { Server } from "socket.io";
 import http from "http";
 
-const userSocketMap = {}; // { userId: socketId }
-let io; // <-- Declare io globally for access
+const userSocketMap = {};
+let io; 
 
 export function getReceiverSocketId(userId) {
   return userSocketMap[userId];
@@ -17,7 +15,7 @@ function setupSocket(app) {
     cors: {
       origin: ["http://localhost:5173"],
     },
-  });
+  }); 
 
   io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
