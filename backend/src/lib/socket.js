@@ -13,10 +13,13 @@ function setupSocket(app) {
 
   io = new Server(server, {
     cors: {
-      origin: ["http://localhost:5173"],
+      origin: [
+        "http://localhost:5173",              // For local development
+        "https://chat-app-70bc.onrender.com" // For production
+      ],
+      credentials: true,
     },
-  }); 
-
+  });
   io.on("connection", (socket) => {
     console.log("A user connected:", socket.id);
 
