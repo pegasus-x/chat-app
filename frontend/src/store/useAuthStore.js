@@ -17,6 +17,7 @@ export const useAuthStore = create((set, get) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
+
       set({ authUser: res.data });
       get().connectSocket();
     } catch (error) {
@@ -47,6 +48,7 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
+
       get().connectSocket();
     } catch (error) {
       toast.error(error.response.data.message);
@@ -89,58 +91,15 @@ export const useAuthStore = create((set, get) => ({
         userId: authUser._id,
       },
     });
-
     socket.connect();
+
     set({ socket: socket });
 
-    // FIXED: Added proper event listeners and error handling
     socket.on("getOnlineUsers", (userIds) => {
-      console.log("📡 Received online users from server:", userIds);
-      
-      // Ensure userIds is an array and has valid data
-      if (Array.isArray(userIds)) {
-        set({ onlineUsers: userIds });
-        console.log("✅ Updated onlineUsers in store:", userIds);
-      } else {
-        console.warn("⚠️ Invalid userIds received:", userIds);
-        set({ onlineUsers: [] });
-      }
-    });
-
-    // ADDED: Connection event handlers for debugging
-    socket.on("connect", () => {
-      console.log("🔗 Socket connected successfully");
-      console.log("Socket ID:", socket.id);
-    });
-
-    socket.on("connect_error", (error) => {
-      console.error("❌ Socket connection error:", error);
-    });
-
-    socket.on("disconnect", (reason) => {
-      console.log("🔌 Socket disconnected:", reason);
-      // Clear online users when disconnected
-      set({ onlineUsers: [] });
-    });
-
-    // ADDED: Handle reconnection
-    socket.on("reconnect", () => {
-      console.log("🔄 Socket reconnected");
-    });
-
-    socket.on("reconnect_error", (error) => {
-      console.error("❌ Socket reconnection error:", error);
+      set({ onlineUsers: userIds });
     });
   },
-
   disconnectSocket: () => {
-    const socket = get().socket;
-    if (socket?.connected) {
-      console.log("🔌 Disconnecting socket...");
-      socket.disconnect();
-      
-      // Clear online users when disconnecting
-      set({ onlineUsers: [], socket: null });
-    }
+    if (get().socket?.connected) get().socket.disconnect();
   },
 }));
