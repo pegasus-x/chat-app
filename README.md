@@ -123,11 +123,12 @@ baseURL: import.meta.env.MODE === 'development'
 
 ---
 🧪 Upcoming Features
-✅ Group Chats
-✅ Message Read Status
-✅ Push Notifications
-✅ Chat Search
-✅ Typing Indicator
+
+- ✅ Group Chats
+- ✅ Message Read Status
+- ✅ Push Notifications
+- ✅ Chat Search
+- ✅ Typing Indicator
 
 
 ## 🤝 Contributing
