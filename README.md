@@ -1,87 +1,151 @@
-# Chat App
+# 💬 Realtime Chat App
 
-A full-stack real-time chat application built with Node.js (backend) and React.js (frontend). This project allows users to communicate in real time using WebSockets and provides a responsive UI for an interactive messaging experience.
+A full-stack real-time chat application where users can register, chat instantly with each other, and view live online/offline status. Built with React, Node.js, and Socket.IO.
 
-## 🚀 Features
-
-- Real-time chat using Socket.IO
-- User authentication
-- Chat rooms / private messaging
-- Responsive frontend built with React
-- Image sharing with Cloudinary
-- RESTful API with Node.js and Express
-
-## 📁 Project Structure
-
-chat-app/
-├── backend/ # Node.js + Express + Socket.IO backend
-├── frontend/ # React frontend
-├── .gitignore
-└── package.json # Root dependencies and scripts 
-
-## 🛠️ Installation
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
+🔗 **Live App**: [https://chat-app-70bc.onrender.com](https://chat-app-70bc.onrender.com)
 
 ---
 
-### 🔧 Backend Setup
+## 🚀 Features
+
+- 🔐 User Authentication (Register & Login)
+- 💬 Realtime 1-on-1 Messaging with Socket.IO
+- 🧑‍🤝‍🧑 Online/Offline Status
+- 📦 Fully Deployed via Render (Frontend + Backend)
+- ⚡ Fast and responsive UI with DaisyUI + Tailwind CSS
+
+---
+
+## 🛠️ Tech Stack
+
+**Frontend**  
+- React (Vite)
+- Tailwind CSS + DaisyUI  
+- Axios  
+- Socket.IO Client  
+
+**Backend**  
+- Node.js + Express  
+- MongoDB + Mongoose  
+- Socket.IO  
+- JWT (for auth)  
+- Cookie-based Session Handling  
+
+**Deployment**  
+- 🔥 Render (Frontend & Backend)
+
+---
+
+## 📁 Project Structure
+
+```
+/client         # React Frontend
+  ├── src
+  ├── components
+  └── pages
+
+/server         # Express Backend
+  ├── controllers
+  ├── models
+  ├── routes
+  ├── socket
+  └── index.js
+```
+
+---
+
+## ⚙️ Local Development Setup
+
+### 1. Clone the repository
 
 ```bash
-cd backend
-npm install
-npm run dev
-💻 Frontend Setup
-bash
-Copy
-Edit
-cd frontend
-npm install
-npm start 
-The frontend will run on http://localhost:3000 by default.
+git clone https://github.com/your-username/chat-app.git
+cd chat-app
 ```
-🌐 Technologies Used
-Frontend: React, Axios, Socket.IO-client
-Backend: Node.js, Express, Socket.IO
-Database:MongoDB 
-Authentication: JWT 
-Media Uploads: Cloudinary
 
-📦 Scripts
-From root:
+### 2. Backend Setup
 
-bash
-# Install all dependencies
-npm install --workspaces
-
-# Start backend & frontend (if set up with concurrently)
-npm run dev  
-📦 Scripts
-From root:
-
-bash
-Copy
-Edit
-# Install all dependencies
-npm install --workspaces
-
-# Start backend & frontend (if set up with concurrently)
+```bash
+cd server
+npm install
+cp .env.example .env   # Configure MONGO_URI and JWT_SECRET
 npm run dev
-Make sure to configure workspaces or use individual terminal tabs if not.
+```
 
-📄 License
-This project is licensed under the MIT License. See the LICENSE file for more information.
+### 3. Frontend Setup
 
-🙌 Acknowledgements
-Inspired by popular chat applications
+```bash
+cd ../client
+npm install
+npm run dev
+```
 
-Real-time communication using Socket.IO
+By default:
+- Frontend runs at `http://localhost:5173`
+- Backend runs at `http://localhost:5001`
 
-📬 Contact
-For questions or feedback, feel free to reach out!
+---
+
+## 🔐 Environment Variables (Backend)
+
+Create a `.env` file inside the `server` folder:
+
+```
+PORT=5001
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+```
+
+---
+
+## 🚀 Deployment on Render
+
+### 🔹 Backend
+- Create a new Web Service
+- Set build command: `npm install`
+- Set start command: `npm run dev` or `node index.js`
+- Add environment variables (same as your `.env`)
+- Enable web socket support
+
+### 🔹 Frontend
+- Create another Web Service for the client
+- Set build command: `npm install && npm run build`
+- Set start command: `serve -s dist` (use `serve` package)
+- Set `vite.config.js` to use correct backend URL in production
+
+Example:
+
+```js
+baseURL: import.meta.env.MODE === 'development'
+  ? 'http://localhost:5001/api'
+  : 'https://your-backend-service.onrender.com/api'
+```
+
+---
+🧪 Upcoming Features
+✅ Group Chats
+✅ Message Read Status
+✅ Push Notifications
+✅ Chat Search
+✅ Typing Indicator
 
 
+## 🤝 Contributing
 
+1. Fork this repository
+2. Create a new branch: `git checkout -b feature/feature-name`
+3. Make your changes and commit: `git commit -m 'Add feature'`
+4. Push to your branch: `git push origin feature/feature-name`
+5. Submit a pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 👨‍💻 Author
+
+**Rati Ranjan Sendha**  (Pegasus X)
