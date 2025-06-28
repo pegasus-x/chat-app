@@ -2,8 +2,7 @@
 
 A full-stack real-time chat application where users can register, chat instantly with each other, and view live online/offline status. Built with React, Node.js, and Socket.IO.
 
-🔗 **Live App**: [https://chat-app-70bc.onrender.com](https://chat-app-70bc.onrender.com)
-
+🔗 **Live App**:(https://chat-app-70bc.onrender.com)
 ---
 
 ## 🚀 Features
