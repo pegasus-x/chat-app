@@ -21,18 +21,46 @@ export const useChatStore = create((set, get) => ({
       set({ isUsersLoading: false });
     }
   },
+  searchResults: [],
+isSearchingUsers: false,
+
+// Add action:
+searchUsers: async (query) => {
+  if (!query) return set({ searchResults: [] });
+  set({ isSearchingUsers: true });
+  try {
+    const res = await axiosInstance.get(`/messages/search-users?query=${query}`);
+    set({ searchResults: res.data });
+  } catch (err) {
+    toast.error("Search failed");
+  } finally {
+    set({ isSearchingUsers: false });
+  }
+},
 
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get(`/messages/${userId}`);
       set({ messages: res.data });
+
+      // ✅ Emit message-read when opening chat
+      const lastMessage = res.data[res.data.length - 1];
+      const { authUser, socket } = useAuthStore.getState();
+
+      if (lastMessage?.receiverId === authUser._id && lastMessage?.status !== "read") {
+        socket.emit("message-read", {
+          messageId: lastMessage._id,
+          senderId: lastMessage.senderId,
+        });
+      }
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
       set({ isMessagesLoading: false });
     }
   },
+
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
@@ -47,21 +75,33 @@ export const useChatStore = create((set, get) => ({
     const { selectedUser } = get();
     if (!selectedUser) return;
 
-    const socket = useAuthStore.getState().socket;
+    const { socket, authUser } = useAuthStore.getState();
 
     socket.on("newMessage", (newMessage) => {
-      const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
+      const isFromSelectedUser = newMessage.senderId === selectedUser._id;
+      if (!isFromSelectedUser) return;
+
+      // ✅ Emit message-delivered to server
+      socket.emit("message-delivered", { messageId: newMessage._id });
 
       set({
         messages: [...get().messages, newMessage],
       });
     });
+
+    // ✅ Listen for read events to update local state
+    socket.on("message-read", ({ messageId }) => {
+      const updatedMessages = get().messages.map((msg) =>
+        msg._id === messageId ? { ...msg, status: "read" } : msg
+      );
+      set({ messages: updatedMessages });
+    });
   },
 
   unsubscribeFromMessages: () => {
-    const socket = useAuthStore.getState().socket;
+    const { socket } = useAuthStore.getState();
     socket.off("newMessage");
+    socket.off("message-read");
   },
 
   setSelectedUser: (selectedUser) => set({ selectedUser }),
