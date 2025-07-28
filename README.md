@@ -1,4 +1,4 @@
-# 💬 Realtime Chat App
+# 💬 SyncTalk Realtime Chat App
 
 A full-stack real-time chat application where users can register, chat instantly with each other, and view live online/offline status. Built with React, Node.js, and Socket.IO.
 
