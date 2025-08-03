@@ -2,7 +2,9 @@
 
 A full-stack real-time chat application where users can register, chat instantly with each other, and view live online/offline status. Built with React, Node.js, and Socket.IO.
 
-🔗 **Live App**:(https://chat-app-1-iqsp.onrender.com) / (https://pegasuschatapp.online/)
+🔗 **Live App**:
+Link 1:(https://chat-app-1-iqsp.onrender.com) <br>
+Link 2: (https://pegasuschatapp.online/)
 ---
 
 ## 🚀 Features
